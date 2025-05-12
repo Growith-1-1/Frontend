@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { Payment } from '../types/Payment';
-import { Challenge } from '../types/challenge';
+import { Payment } from '../types/payment';
+import { Challenge } from '../types/challenges';
 
 interface ChallengeState {
   challenges: Challenge[];
@@ -10,7 +10,10 @@ interface ChallengeState {
   selectChallenge: (challengeId: string) => void;
   addPayment: (payment: Payment) => void;
   updateChallengePublic: (challengeId: string, isPublic: boolean) => void;
-  updateChallengeStatus: (challengeId: string, status: 'active' | 'completed' | 'failed') => void;
+  updateChallengeStatus: (
+    challengeId: string,
+    status: 'active' | 'completed' | 'failed'
+  ) => void;
   updateChallengeProgress: (challengeId: string, progress: number) => void;
 }
 
@@ -25,7 +28,7 @@ const initialChallenges: Challenge[] = [
     progress: 42,
     goal: 150000,
     status: 'active',
-    isNew: true
+    isNew: true,
   },
 ];
 
@@ -81,28 +84,30 @@ export const useChallengeStore = create<ChallengeState>((set) => ({
           ? { ...state.selectedChallenge, isPublic }
           : state.selectedChallenge,
     })),
-    
+
   updateChallengeStatus: (challengeId, status) =>
     set((state) => ({
       challenges: state.challenges.map((challenge) =>
-        challenge.id === challengeId ? { 
-          ...challenge, 
-          status,
-          isCompleted: status === 'completed',
-          isFailed: status === 'failed'
-        } : challenge
+        challenge.id === challengeId
+          ? {
+              ...challenge,
+              status,
+              isCompleted: status === 'completed',
+              isFailed: status === 'failed',
+            }
+          : challenge
       ),
       selectedChallenge:
         state.selectedChallenge?.id === challengeId
-          ? { 
-              ...state.selectedChallenge, 
+          ? {
+              ...state.selectedChallenge,
               status,
               isCompleted: status === 'completed',
-              isFailed: status === 'failed'
+              isFailed: status === 'failed',
             }
           : state.selectedChallenge,
     })),
-    
+
   updateChallengeProgress: (challengeId, progress) =>
     set((state) => ({
       challenges: state.challenges.map((challenge) =>

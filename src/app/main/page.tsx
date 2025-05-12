@@ -35,7 +35,12 @@ const Home: NextPage = () => {
       }
       const currentToken = await getToken(messaging, { vapidKey });
       if (currentToken) {
-        createFcmToken(currentToken); // 서버에 FCM 토큰 전송
+        try {
+          createFcmToken(currentToken); // 서버에 FCM 토큰 전송
+          console.log('FCM 토큰 전송 완료');
+        } catch (error) {
+          console.error('FCM 토큰 전송 실패');
+        }
       } else {
         console.error('토큰을 가져오지 못했습니다.');
       }

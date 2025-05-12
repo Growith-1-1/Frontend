@@ -7,6 +7,6 @@ export async function getSse(): Promise<SseSendResponse> {
 }
 
 // SSE 구독 경로
-export async function subscribeSSE(): Promise<SseSubscribeResponse> {
+export async function subscribeSse(): Promise<SseSubscribeResponse> {
   return await baseFetch('/sse/subscribe');
 }
