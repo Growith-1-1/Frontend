@@ -41,15 +41,7 @@ export const ChallengesList = () => {
         </div>
       ) : (
         fetchedChallenges?.map((challenge) => (
-          <ChallengeItem
-            key={challenge.id}
-            id={challenge.id}
-            title={challenge.name}
-            progress={Math.round(
-              (challenge.totalSpend / challenge.amount) * 100
-            )}
-            daysLeft={challenge.endDay}
-          />
+          <ChallengeItem key={challenge.id} {...challenge} />
         ))
       )}
     </div>

@@ -1,5 +1,4 @@
-import { Payment } from '../../types/Payment';
-
+import { Payment } from '../../types/payment';
 
 interface PaymentSectionProps {
   totalSavings: number;

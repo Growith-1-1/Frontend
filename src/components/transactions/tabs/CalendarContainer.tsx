@@ -3,7 +3,7 @@
 import { postAccountBookMonth } from '@/api/transactionsApi';
 import { Calendar } from '@/components/ui/calendar';
 import { formatSimpleCurrency } from '@/lib/formatMoney';
-import { AccountBookMonthResponse } from '@/types/transactions';
+import { PostAccountBookMonthResponse } from '@/types/transactions';
 import { useMutation } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
@@ -13,7 +13,7 @@ import CalendarLogCardsWrapper from './CalendarLogCardsWrapper';
 export default function CalendarContainer() {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [transactionsMonthData, setTransactionsMonthData] = useState<
-    AccountBookMonthResponse[]
+    PostAccountBookMonthResponse[]
   >([]);
 
   const { mutate: accountBookMonth } = useMutation({

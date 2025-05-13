@@ -74,6 +74,21 @@ export function useSSE<T>(
       }
     }) as EventListener);
 
+    eventSource.addEventListener('TIP', ((event: MessageEvent) => {
+      const eventData = event.data;
+
+      try {
+        setData(JSON.parse(eventData));
+        setError(null);
+      } catch (parseError) {
+        console.error('SSE Data Parsing Error:', parseError);
+        setError(
+          parseError instanceof Error ? parseError.message : String(parseError)
+        );
+        setData(null);
+      }
+    }) as EventListener);
+
     eventSource.onerror = ((err: Event) => {
       console.error('SSE Connection/Network Error:', err);
       setError(new Error('SSE connection error') as any);

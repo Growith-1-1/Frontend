@@ -8,22 +8,6 @@ const SseProvider = ({ children }: { children: React.ReactNode }) => {
     withCredentials: true,
   });
 
-  useEffect(() => {
-    // for test
-    let interval = null;
-    if (isConnected) {
-      interval = setInterval(() => {
-        console.log('interval');
-        baseFetch('/sse/send');
-      }, 500000);
-    }
-    return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
-    };
-  }, [isConnected]);
-
   return children;
 };
 
