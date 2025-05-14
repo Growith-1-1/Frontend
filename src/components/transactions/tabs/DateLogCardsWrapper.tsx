@@ -9,6 +9,7 @@ import animationErrorData from '../../../../public/lottie/query_error.json';
 import TransactionsLogCard from './TransactionsLogCard';
 import { useInfiniteAccountBook } from '@/hooks/useInfiniteAccountBook';
 import { useVirtualizer, useWindowVirtualizer } from '@tanstack/react-virtual';
+import { Loader } from 'lucide-react';
 
 interface DateProps {
   startDate: string;
@@ -37,22 +38,24 @@ export default function DateLogCardsWrapper({ startDate, endDate }: DateProps) {
   });
 
   useEffect(() => {
-    const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
-    if (
-      lastItem?.index >= allTransactions.length - 1 &&
-      hasNextPage &&
-      !isFetchingNextPage
-    ) {
+    if (!hasNextPage || isFetchingNextPage) return;
+
+    const virtualItems = rowVirtualizer.getVirtualItems();
+    if (virtualItems.length === 0) return;
+
+    const lastItem = virtualItems[virtualItems.length - 1];
+
+    if (lastItem && lastItem.index >= allTransactions.length - 5) {
       fetchNextPage();
     }
   }, [
     hasNextPage,
     fetchNextPage,
     allTransactions.length,
-    isFetchingNextPage,
     rowVirtualizer.getVirtualItems(),
   ]);
 
+  // 백업용 스크롤 기반 fetchNextPage
   // const handleObserver = useCallback(
   //   (entries: IntersectionObserverEntry[]) => {
   //     const [target] = entries;
@@ -121,14 +124,25 @@ export default function DateLogCardsWrapper({ startDate, endDate }: DateProps) {
           ))} */}
             {rowVirtualizer.getVirtualItems().map((virtualRow) => {
               return (
-                <TransactionsLogCard
+                <div
                   key={virtualRow.index}
-                  data={allTransactions[virtualRow.index]}
-                />
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: `${virtualRow.size}px`,
+                    transform: `translateY(${virtualRow.start}px)`,
+                  }}
+                >
+                  <TransactionsLogCard
+                    data={allTransactions[virtualRow.index]}
+                  />
+                </div>
               );
             })}
           </div>
-          <div ref={loadMoreRef} className="py-4 flex justify-center">
+          {/* <div ref={loadMoreRef} className="py-4 flex justify-center">
             {isFetchingNextPage && (
               <Lottie
                 animationData={animationLoadingData}
@@ -137,7 +151,22 @@ export default function DateLogCardsWrapper({ startDate, endDate }: DateProps) {
                 style={{ width: 100, height: 100 }}
               />
             )}
-          </div>
+          </div> */}
+
+          {/* Virtual 컨테이너 내부에 로딩 표시 */}
+          {isFetchingNextPage && (
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '70px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 10,
+              }}
+            >
+              <Loader className="animate-spin ml-2" size={20} />
+            </div>
+          )}
         </div>
       )}
     </>

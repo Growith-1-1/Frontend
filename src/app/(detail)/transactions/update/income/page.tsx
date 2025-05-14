@@ -6,6 +6,7 @@ import TransactionsContainer, {
 } from '@/components/transactions/TransactionsContainer';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
 export default function Page() {
   const searchParam = useSearchParams();
@@ -25,7 +26,7 @@ export default function Page() {
   });
 
   return (
-    <>
+    <Suspense>
       {data && (
         <TransactionsContainer
           transaction={'INCOME'}
@@ -33,6 +34,6 @@ export default function Page() {
           isEdit
         />
       )}
-    </>
+    </Suspense>
   );
 }

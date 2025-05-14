@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import ChallengeInfo from './ChallengeInfo';
@@ -17,21 +19,21 @@ const fetchChallengeData = async (id: string) => {
     description: '하루 30분씩 운동하고 인증샷 올리기',
     price: '50000',
     date: '2025. 04. 13',
-    visibility: 'friends'
+    visibility: 'friends',
   };
 };
 
 export default function ChallengeForm() {
   const router = useRouter();
   const { id } = router.query;
-  
+
   const [isLoading, setIsLoading] = useState(true);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     price: '',
     date: '',
-    visibility: ''
+    visibility: '',
   });
 
   useEffect(() => {
@@ -45,7 +47,7 @@ export default function ChallengeForm() {
             description: data.description,
             price: data.price,
             date: data.date,
-            visibility: data.visibility
+            visibility: data.visibility,
           });
         } catch (error) {
           console.error('Failed to load challenge data:', error);
@@ -82,48 +84,56 @@ export default function ChallengeForm() {
     <div className="max-w-md mx-auto bg-white">
       <div className="p-4">
         <div className="flex items-center mb-6">
-          <button 
-            onClick={() => router.back()} 
-            className="mr-2"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M15 18L9 12L15 6" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <button onClick={() => router.back()} className="mr-2">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M15 18L9 12L15 6"
+                stroke="black"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
           </button>
-          <h1 className="text-lg font-medium text-center flex-1 mr-6">챌린지 수정</h1>
+          <h1 className="text-lg font-medium text-center flex-1 mr-6">
+            챌린지 수정
+          </h1>
         </div>
 
         <ChallengeInfo />
-        
-        <ChallengeTitle 
-          value={formData.title} 
-          onChange={(value) => handleChange('title', value)} 
+
+        <ChallengeTitle
+          value={formData.title}
+          onChange={(value) => handleChange('title', value)}
         />
-        
-        <ChallengeDescription 
-          value={formData.description} 
-          onChange={(value) => handleChange('description', value)} 
+
+        <ChallengeDescription
+          value={formData.description}
+          onChange={(value) => handleChange('description', value)}
         />
-        
-        <PriceInput 
-          value={formData.price} 
-          onChange={(value) => handleChange('price', value)} 
+
+        <PriceInput
+          value={formData.price}
+          onChange={(value) => handleChange('price', value)}
         />
-        
-        <DatePicker 
-          value={formData.date} 
-          onChange={(value) => handleChange('date', value)} 
+
+        <DatePicker
+          value={formData.date}
+          onChange={(value) => handleChange('date', value)}
         />
-        
-        <VisibilitySelector 
-          value={formData.visibility} 
-          onChange={(value) => handleChange('visibility', value)} 
+
+        <VisibilitySelector
+          value={formData.visibility}
+          onChange={(value) => handleChange('visibility', value)}
         />
-        
-        <ActionButtons 
-          onSubmit={handleSubmit} 
-          onDelete={handleDelete} 
-        />
+
+        <ActionButtons onSubmit={handleSubmit} onDelete={handleDelete} />
       </div>
     </div>
   );
