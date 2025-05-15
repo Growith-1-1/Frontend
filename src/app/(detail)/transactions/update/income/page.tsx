@@ -7,8 +7,11 @@ import TransactionsContainer, {
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
+import Lottie from 'react-lottie-player';
+import animationLoadingData from '../../../../../../public/lottie/piggy_loading.json';
+import { Loader } from 'lucide-react';
 
-export default function Page() {
+function TransactionDetail() {
   const searchParam = useSearchParams();
   const id = searchParam.get('id');
 
@@ -26,7 +29,7 @@ export default function Page() {
   });
 
   return (
-    <Suspense>
+    <>
       {data && (
         <TransactionsContainer
           transaction={'INCOME'}
@@ -34,6 +37,14 @@ export default function Page() {
           isEdit
         />
       )}
+    </>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<Loader className="animate-spin ml-2" size={20} />}>
+      <TransactionDetail />
     </Suspense>
   );
 }
