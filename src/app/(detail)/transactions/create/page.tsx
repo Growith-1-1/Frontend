@@ -1,27 +1,20 @@
-import TransactionsContainer from '@/components/transactions/TransactionsContainer';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { TransactionType } from '@/types/transactions';
+'use client';
 
-const REGISTER_TABS: { value: TransactionType; label: string }[] = [
-  { value: 'SPEND', label: '지출' },
-  { value: 'INCOME', label: '수입' },
-];
+import { Loader } from 'lucide-react';
+import dynamic from 'next/dynamic';
 
-export default function Register() {
-  return (
-    <Tabs defaultValue="SPEND" className="w-full">
-      <TabsList className="w-fit ">
-        {REGISTER_TABS.map((tab) => (
-          <TabsTrigger key={tab.value} value={tab.value}>
-            {tab.label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-      {REGISTER_TABS.map((tab) => (
-        <TabsContent key={tab.value} value={tab.value}>
-          <TransactionsContainer transaction={tab.value} />
-        </TabsContent>
-      ))}
-    </Tabs>
-  );
+const CreateContainer = dynamic(
+  () => import('@/components/transactions/create/CreateContainer'),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex justify-center items-center min-h-screen">
+        <Loader className="animate-spin ml-2" size={20} />
+      </div>
+    ),
+  }
+);
+
+export default function TransactionsCreatePage() {
+  return <CreateContainer />;
 }

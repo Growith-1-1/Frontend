@@ -1,31 +1,20 @@
-import BudgetContainer from '@/components/transactions/tabs/BudgetContainer';
-import CalendarContainer from '@/components/transactions/tabs/CalendarContainer';
-import DateContainer from '@/components/transactions/tabs/DateContainer';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+'use client';
 
-const TRANSACTIONS_TABS = [
-  { value: 'date', label: '기간 설정' },
-  { value: 'calendar', label: '캘린더' },
-  { value: 'budget', label: '예산 설정' },
-];
+import { Loader } from 'lucide-react';
+import dynamic from 'next/dynamic';
 
-export default function Register() {
-  return (
-    <Tabs defaultValue="date" className="w-full gap-6">
-      <TabsList className="w-fit ">
-        {TRANSACTIONS_TABS.map((tab) => (
-          <TabsTrigger key={tab.value} value={tab.value}>
-            {tab.label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-      {TRANSACTIONS_TABS.map((tab) => (
-        <TabsContent key={tab.value} value={tab.value}>
-          {tab.value === 'date' && <DateContainer />}
-          {tab.value === 'calendar' && <CalendarContainer />}
-          {tab.value === 'budget' && <BudgetContainer />}
-        </TabsContent>
-      ))}
-    </Tabs>
-  );
+const TabsContainer = dynamic(
+  () => import('@/components/transactions/tabs/TabsContainer'),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex justify-center items-center min-h-screen">
+        <Loader className="animate-spin ml-2" size={20} />
+      </div>
+    ),
+  }
+);
+
+export default function TransactionsTabsPage() {
+  return <TabsContainer />;
 }
