@@ -8,12 +8,24 @@ import type { NextPage } from 'next';
 import { env } from 'process';
 import { useEffect } from 'react';
 
-const vapidKey = env.VAPIDKEY; // 🔥 꼭 실제 키로 바꿔야 함
+const vapidKey = process.env.NEXT_PUBLIC_VAPIDKEY; // NEXT_PUBLIC_ 접두사 추가
 
 const Home: NextPage = () => {
   const { mutate: createFcmToken } = useFcmToken();
 
   useEffect(() => {
+    const isProduction =
+      process.env.NEXT_PUBLIC_NODE_ENV === 'production' ||
+      process.env.NODE_ENV === 'production';
+    console.log('isProduction', isProduction);
+
+    if (isProduction && typeof window !== 'undefined') {
+      const isLocalhost = window.location.href.includes('localhost');
+      if (isLocalhost) {
+        window.location.href = 'https://the-ham-phi.vercel.app/main';
+      }
+    }
+
     handleAllowNotification();
   }, []);
 
