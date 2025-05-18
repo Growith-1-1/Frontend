@@ -17,7 +17,9 @@ import { format, subMonths } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { DateRange } from 'react-day-picker';
-import DateLogCardsWrapper from './DateLogCardsWrapper';
+import DateLogCardsWrapper from './InfiniteDateCardsWrapper';
+import InfiniteDateCardsWrapper from './InfiniteDateCardsWrapper';
+import VirtualDateCardsWrapper from './VirtualDateCardsWrapper';
 
 const DEFAULT_DATE_RANGE = {
   from: subMonths(new Date(), 1),
@@ -158,7 +160,8 @@ export default function DateContainer() {
         </div>
       </div>
       {startDate && endDate && (
-        <DateLogCardsWrapper startDate={startDate} endDate={endDate} />
+        // <InfiniteDateCardsWrapper startDate={startDate} endDate={endDate} />
+        <VirtualDateCardsWrapper startDate={startDate} endDate={endDate} />
       )}
     </div>
   );

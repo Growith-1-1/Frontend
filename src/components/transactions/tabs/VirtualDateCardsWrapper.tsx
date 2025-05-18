@@ -1,7 +1,5 @@
 'use client';
 
-import { getAccountBookAll } from '@/api/transactionsApi';
-import { useInfiniteQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef } from 'react';
 import Lottie from 'react-lottie-player';
 import animationLoadingData from '../../../../public/lottie/piggy_loading.json';
@@ -16,9 +14,10 @@ interface DateProps {
   endDate: string;
 }
 
-export default function DateLogCardsWrapper({ startDate, endDate }: DateProps) {
-  const observerRef = useRef<IntersectionObserver | null>(null);
-  const loadMoreRef = useRef<HTMLDivElement>(null);
+export default function VirtualDateCardsWrapper({
+  startDate,
+  endDate,
+}: DateProps) {
   const parentRef = useRef<HTMLDivElement>(null);
 
   const {
@@ -31,61 +30,53 @@ export default function DateLogCardsWrapper({ startDate, endDate }: DateProps) {
   } = useInfiniteAccountBook({ startDate, endDate });
 
   const rowVirtualizer = useVirtualizer({
-    count: hasNextPage ? allTransactions.length : allTransactions.length,
+    count: allTransactions.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 100,
-    overscan: 5,
+    overscan: 2,
   });
+  console.log(allTransactions.length);
 
-  useEffect(() => {
+  // 가상화 상태를 메모이제이션된 콜백으로 관리
+  const checkForMore = useCallback(() => {
     if (!hasNextPage || isFetchingNextPage) return;
 
     const virtualItems = rowVirtualizer.getVirtualItems();
     if (virtualItems.length === 0) return;
 
-    const lastItem = virtualItems[virtualItems.length - 1];
+    const lastItem = virtualItems[virtualItems.length - 3];
 
     if (lastItem && lastItem.index >= allTransactions.length - 5) {
       fetchNextPage();
     }
   }, [
     hasNextPage,
-    fetchNextPage,
+    isFetchingNextPage,
     allTransactions.length,
-    rowVirtualizer.getVirtualItems(),
+    fetchNextPage,
+    rowVirtualizer,
   ]);
 
-  // 백업용 스크롤 기반 fetchNextPage
-  // const handleObserver = useCallback(
-  //   (entries: IntersectionObserverEntry[]) => {
-  //     const [target] = entries;
-  //     if (target.isIntersecting && hasNextPage && !isFetchingNextPage) {
-  //       fetchNextPage();
-  //     }
-  //   },
-  //   [fetchNextPage, hasNextPage, isFetchingNextPage]
-  // );
+  // 스크롤 이벤트 핸들러 등록 및 정리
+  useEffect(() => {
+    const scrollElement = parentRef.current;
+    if (!scrollElement) return;
 
-  // useEffect(() => {
-  //   const currentElement = loadMoreRef.current;
+    const handleScroll = () => {
+      checkForMore();
+    };
 
-  //   if (currentElement) {
-  //     observerRef.current = new IntersectionObserver(handleObserver, {
-  //       root: null,
-  //       rootMargin: '0px',
-  //       threshold: 0.1,
-  //     });
+    scrollElement.addEventListener('scroll', handleScroll, { passive: true });
 
-  //     observerRef.current.observe(currentElement);
-  //   }
+    return () => {
+      scrollElement.removeEventListener('scroll', handleScroll);
+    };
+  }, [checkForMore]);
 
-  //   return () => {
-  //     if (observerRef.current && currentElement) {
-  //       observerRef.current.unobserve(currentElement);
-  //       observerRef.current.disconnect();
-  //     }
-  //   };
-  // }, [handleObserver]);
+  // 초기 로드 및 데이터 변경 시 확인
+  useEffect(() => {
+    checkForMore();
+  }, [checkForMore, allTransactions.length]);
 
   return (
     <>
@@ -106,7 +97,7 @@ export default function DateLogCardsWrapper({ startDate, endDate }: DateProps) {
           ref={parentRef}
           className="bg-white rounded-lg shadow-sm px-3 py-6 flex-grow"
           style={{
-            height: `500px`,
+            height: `600px`,
             width: `100%`,
             overflow: 'auto',
           }}
@@ -119,9 +110,6 @@ export default function DateLogCardsWrapper({ startDate, endDate }: DateProps) {
               position: 'relative',
             }}
           >
-            {/* {allTransactions.map((transaction) => (
-            <TransactionsLogCard key={transaction.id} data={transaction} />
-          ))} */}
             {rowVirtualizer.getVirtualItems().map((virtualRow) => {
               return (
                 <div
@@ -142,29 +130,9 @@ export default function DateLogCardsWrapper({ startDate, endDate }: DateProps) {
               );
             })}
           </div>
-          {/* <div ref={loadMoreRef} className="py-4 flex justify-center">
-            {isFetchingNextPage && (
-              <Lottie
-                animationData={animationLoadingData}
-                loop
-                play
-                style={{ width: 100, height: 100 }}
-              />
-            )}
-          </div> */}
-
-          {/* Virtual 컨테이너 내부에 로딩 표시 */}
           {isFetchingNextPage && (
-            <div
-              style={{
-                position: 'absolute',
-                bottom: '70px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                zIndex: 10,
-              }}
-            >
-              <Loader className="animate-spin ml-2" size={20} />
+            <div className="flex justify-center mt-4">
+              <Loader className="animate-spin" size={20} />
             </div>
           )}
         </div>

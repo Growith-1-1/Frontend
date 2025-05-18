@@ -26,7 +26,7 @@ const Home: NextPage = () => {
       }
     }
 
-    handleAllowNotification();
+    // handleAllowNotification();
   }, []);
 
   async function handleAllowNotification() {
