@@ -7,18 +7,15 @@ interface DonutChartData {
 }
 
 export function DonutChart({ data }: { data: DonutChartData[] }) {
-  if (!data || data.length === 0) {
-    return <div></div>; // 데이터가 없을 때 표시
-  }
   return (
-    <div className="w-full aspect-square max-w-xs mx-auto mb-8">
+    <div className="w-full aspect-square max-w-xs mx-auto">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
             data={data}
             cx="50%"
             cy="50%"
-            innerRadius="60%"
+            innerRadius="50%"
             outerRadius="80%"
             paddingAngle={5}
             dataKey="value"

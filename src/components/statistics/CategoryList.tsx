@@ -1,28 +1,24 @@
+import { CategoryColor } from '@/constants/categories';
+
 interface Category {
   name: string;
-  color?: string;
   value: number;
+  color: CategoryColor;
 }
 
-type CategoryListProps = {
-  categories: Category[];
-  onSelect?: (cat: Category) => void;
-};
+interface StatsDataProps {
+  statsData: Category[];
+}
 
-export function CategoryList({ categories, onSelect }: CategoryListProps) {
-  if (!categories || categories.length === 0) {
-    return <div></div>; // 카테고리가 없을 때 표시
-  }
-
+export function CategoryList({ statsData }: StatsDataProps) {
   return (
     <div>
       <h2 className="text-xl font-bold mb-4">전체 카테고리</h2>
       <div className="space-y-2">
-        {categories.map((category) => (
+        {statsData.map((category) => (
           <div
             key={category.name}
             className="flex items-center justify-between p-3 border rounded-lg cursor-pointer hover:bg-gray-100"
-            onClick={() => onSelect?.(category)}
           >
             <div className="flex items-center">
               <div
@@ -32,8 +28,7 @@ export function CategoryList({ categories, onSelect }: CategoryListProps) {
               <span>{category.name}</span>
             </div>
             <span className="font-semibold">
-              {/* {category.value.toLocaleString()}원 */}
-              {category.value}원
+              {category.value.toLocaleString()}원
             </span>
           </div>
         ))}

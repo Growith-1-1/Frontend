@@ -1,19 +1,16 @@
+import { CategoryColor } from '@/constants/categories';
+
 interface Category {
   name: string;
-  color?: string;
   value: number;
+  color?: CategoryColor;
 }
 
 interface TopCategoriesProps {
   categories: Category[];
-  onSelect?: (cat: Category) => void;
 }
 
 export function TopCategories({ categories }: TopCategoriesProps) {
-  if (!categories || categories.length === 0) {
-    return <div></div>; // 카테고리가 없을 때 표시
-  }
-
   return (
     <div className="mb-8">
       <h2 className="text-xl font-bold mb-4">TOP3 카테고리</h2>
@@ -32,10 +29,7 @@ export function TopCategories({ categories }: TopCategoriesProps) {
               </div>
               <span className="ml-4">{category.name}</span>
             </div>
-            <span className="font-semibold">
-              {/* {category.value.toLocaleString()}원 */}
-              {category.value}원
-            </span>
+            <span className="title3">{category.value.toLocaleString()}원</span>
           </div>
         ))}
       </div>

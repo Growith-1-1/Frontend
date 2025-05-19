@@ -28,7 +28,6 @@ export default function InfiniteDateCardsWrapper({
     isError,
     isPending,
   } = useInfiniteAccountBook({ startDate, endDate });
-  console.log(allTransactions.length);
 
   const handleObserver = useCallback(
     (entries: IntersectionObserverEntry[]) => {

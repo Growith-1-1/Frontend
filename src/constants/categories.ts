@@ -64,57 +64,20 @@ export const CATEGORIES = [
 
 // 카테고리 ID 타입
 export type CategoryId = (typeof CATEGORIES)[number]['id'];
+// 카테고리 COLOR 타입
+export type CategoryColor = (typeof CATEGORIES)[number]['color'];
 
 // 유틸리티 함수 - ID로 카테고리 찾기
 export const getCategoryById = (id: CategoryId) => {
   return CATEGORIES.find((category) => category.id === id);
 };
 
-// 유틸리티 함수 - 이름으로 카테고리 찾기
 export const getCategoryByKorean = (korean: string) => {
   return CATEGORIES.find((category) => category.korean === korean);
 };
 export const getCategoryByEnglish = (english: string) => {
   return CATEGORIES.find((category) => category.english === english);
 };
-
-export const CATEGORY_MAP: Record<
-  string,
-  { name: string; color: string; english: string }
-> = CATEGORIES.reduce(
-  (acc, { korean, english }) => {
-    acc[korean] = {
-      name: korean,
-      color: generateCategoryColor(korean), // 색상 매핑 함수 필요
-      english,
-    };
-    return acc;
-  },
-  {} as Record<string, { name: string; color: string; english: string }>
-);
-
-// 임의로 색상을 매핑하는 함수 (예시)
-function generateCategoryColor(korean: string): string {
-  const colors = {
-    식비: '#4ade80',
-    카페: '#60a5fa',
-    편의점: '#fbbf24',
-    술_여가: '#a78bfa',
-    쇼핑: '#f472b6',
-    취미: '#fb923c',
-    건강: '#94a3b8',
-    주거_통신: '#fbbf24',
-    금융: '#f472b6',
-    뷰티: '#60a5fa',
-    교통: '#a78bfa',
-    여행: '#4ade80',
-    교육: '#fb923c',
-    생활: '#94a3b8',
-    기부: '#cbd5e1',
-    카드_결제: '#d1d5db',
-    후불_결제: '#d1d5db',
-    기타: '#cbd5e1',
-  };
-
-  return colors[korean as keyof typeof colors] || '#000000'; // 기본 색상
-}
+export const getCategoryColorByKorean = (korean: string) => {
+  return CATEGORIES.find((category) => category.korean === korean);
+};

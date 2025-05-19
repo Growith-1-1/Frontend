@@ -35,7 +35,6 @@ export default function VirtualDateCardsWrapper({
     estimateSize: () => 100,
     overscan: 2,
   });
-  console.log(allTransactions.length);
 
   // 가상화 상태를 메모이제이션된 콜백으로 관리
   const checkForMore = useCallback(() => {

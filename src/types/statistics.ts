@@ -1,6 +1,6 @@
 export interface GetStatResponse {
   category: string;
-  totalAmount: number;
+  sum: number;
 }
 
 export interface GetStatCategoryResponse {
