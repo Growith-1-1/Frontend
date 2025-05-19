@@ -17,8 +17,6 @@ import { format, subMonths } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { DateRange } from 'react-day-picker';
-import DateLogCardsWrapper from './InfiniteDateCardsWrapper';
-import InfiniteDateCardsWrapper from './InfiniteDateCardsWrapper';
 import VirtualDateCardsWrapper from './VirtualDateCardsWrapper';
 
 const DEFAULT_DATE_RANGE = {

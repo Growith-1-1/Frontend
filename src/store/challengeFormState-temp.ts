@@ -33,5 +33,13 @@ export const useChallengeFormStore = create<ChallengeFormState>((set) => ({
   setStartDate: (startDate) => set({ startDate }),
   setEndDate: (endDate) => set({ endDate }),
   setIsPublic: (isPublic) => set({ isPublic }),
-  resetForm: () => set({ title: '', description: '', targetAmount: '', startDate: '', endDate: '', isPublic: true }),
+  resetForm: () =>
+    set({
+      title: '',
+      description: '',
+      targetAmount: '',
+      startDate: '',
+      endDate: '',
+      isPublic: true,
+    }),
 }));

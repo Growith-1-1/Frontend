@@ -1,17 +1,13 @@
 'use client';
 import { CategoryList } from '@/components/statistics/CategoryList';
 import { DonutChart } from '@/components/statistics/DonutChart';
-import { PeriodTabs } from '@/components/statistics/PeriodTabs';
 import { TopCategories } from '@/components/statistics/TopCategories';
 import { getCategoryColorByKorean } from '@/constants/categories';
 import { useGetStatConsume, useGetStatFrequency } from '@/hooks/useStatistics';
-import { ArrowLeft, ArrowRight, BarChart3, PenLine } from 'lucide-react';
-import Link from 'next/link';
-import { useState } from 'react';
 import Lottie from 'react-lottie-player';
 import animationErrorData from '../../../public/lottie/query_error.json';
-import EmptyConsumption from './EmptyConsumption';
 import { ConsumptionDelta } from './ConsumptionDelta';
+import EmptyConsumption from './EmptyConsumption';
 import { FrequencyType } from './StatsContainer';
 
 export default function FrequencyStats({

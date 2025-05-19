@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, BarChart3, PenLine } from 'lucide-react';
+import { ArrowRight, BarChart3, PenLine } from 'lucide-react';
 
 export default function EmptyConsumption() {
   return (

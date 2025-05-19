@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import DailyStats from './FrequencyStats';
 import FrequencyStats from './FrequencyStats';
 
 export type FrequencyType = 'daily' | 'weekly' | 'monthly';

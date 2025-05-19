@@ -5,7 +5,6 @@ import { useFcmToken } from '@/hooks/useFcmController';
 import { messaging } from '@/lib/firebase/settingFCM'; // ✅ firebase 설정에서 import
 import { getToken } from 'firebase/messaging'; // ✅ firebase-messaging에서 import
 import type { NextPage } from 'next';
-import { env } from 'process';
 import { useEffect } from 'react';
 
 const vapidKey = process.env.NEXT_PUBLIC_VAPIDKEY; // NEXT_PUBLIC_ 접두사 추가

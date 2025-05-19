@@ -6,7 +6,11 @@ export interface ChallengeItemProps {
   daysLeft: number;
 }
 
-export const ChallengeItem: React.FC<ChallengeItemProps> = ({ title, progress, daysLeft }) => {
+export const ChallengeItem: React.FC<ChallengeItemProps> = ({
+  title,
+  progress,
+  daysLeft,
+}) => {
   return (
     <div className="bg-white rounded-lg p-3.5 flex justify-between items-center shadow-sm">
       <div className="flex items-center">
@@ -16,8 +20,8 @@ export const ChallengeItem: React.FC<ChallengeItemProps> = ({ title, progress, d
         <div>
           <p className="font-medium">{title}</p>
           <div className="w-32 bg-gray-200 rounded-full h-1.5 mt-1">
-            <div 
-              className="bg-green-400 h-1.5 rounded-full" 
+            <div
+              className="bg-green-400 h-1.5 rounded-full"
               style={{ width: `${progress}%` }}
             ></div>
           </div>
