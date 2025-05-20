@@ -38,65 +38,67 @@ export default function CalendarContainer() {
   return (
     <div className="flex flex-col gap-6 px-4 w-full">
       <Calendar
-        className="w-full bg-white rounded-lg shadow-sm"
+        className="relative w-full bg-white rounded-lg shadow-sm"
         classNames={{
-          day: 'body2 w-full text-center',
-          nav: 'absolute right-10',
-          button_previous: 'right-5',
-          button_next: 'right-0',
-          weekday: 'w-full body2 py-1',
-          day_button: 'p-2',
+          caption: "",
+          head: "w-full body2 py-1",
+          nav: 'absolute top-3 right-3 flex gap-2',
+          nav_button_previous: 'border-none',
+          nav_button_next: 'border-none',
+          cell: "body2 text-center content-start",
           month: 'gap-6',
-          month_grid: 'w-full',
+          months: 'w-full',
         }}
         components={{
-          MonthCaption({ calendarMonth }) {
+          CaptionLabel({ displayMonth }) {
             return (
               <div className="title1 mb-2">
-                {format(calendarMonth.date, 'yyyy. MM')}
+                {format(displayMonth, 'yyyy. MM')}
               </div>
             );
           },
-          Day({ day }) {
-            const date = day.date.getDate();
+          Day({ displayMonth, date }) {
+            const koDate = date.getDate();
             return (
-              <td
-                className="body2 w-full text-center"
-                role="gridcell"
-                data-day={format(day.date, 'yyyy-MM-dd')}
-              >
-                {day.outside ? (
+              // <td
+              //   className="body2 w-full text-center"
+              //   role="gridcell"
+              //   data-day={format(date, 'yyyy-MM-dd')}
+              // >
+              <>
+                {date.getMonth() !== displayMonth.getMonth() ? (
                   <span className="text-gray-500">-</span>
                 ) : (
                   <button
                     className="grid items-center text-center w-full grid-rows-[1.5fr_1fr_1fr]"
                     type="button"
                     tabIndex={-1}
-                    aria-label={format(day.date, 'yyyy년 M월 d일 EEEE', {
+                    aria-label={format(date, 'yyyy년 M월 d일 EEEE', {
                       locale: ko,
                     })}
                   >
-                    <span>{date}</span>
-                    {transactionsMonthData[date - 1]?.spendTotal > 0 && (
+                    <span>{koDate}</span>
+                    {transactionsMonthData[koDate - 1]?.spendTotal > 0 && (
                       <span className="leading-none text-[10px] font-semibold text-warning">
                         -
                         {formatSimpleCurrency(
-                          transactionsMonthData[date - 1].spendTotal
+                          transactionsMonthData[koDate - 1].spendTotal
                         )}
                       </span>
                     )}
 
-                    {transactionsMonthData[date - 1]?.incomeTotal > 0 && (
+                    {transactionsMonthData[koDate - 1]?.incomeTotal > 0 && (
                       <span className="leading-none text-[10px] font-semibold text-primary">
                         +
                         {formatSimpleCurrency(
-                          transactionsMonthData[date - 1].incomeTotal
+                          transactionsMonthData[koDate - 1].incomeTotal
                         )}
                       </span>
                     )}
                   </button>
                 )}
-              </td>
+              </>
+              // </td>
             );
           },
         }}
