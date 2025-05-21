@@ -3,12 +3,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from '@/components/ui/select';
 import { PERIOD_TYPES } from '@/constants/period';
 import { GetBudgetResponse } from '@/types/budget';
@@ -32,6 +32,10 @@ export default function BudgetEditor({
   const [calculateValue, setCalculateValue] = useState<number>(0);
   const [selectedPeriod, setSelectedPeriod] = useState('DAILY');
   const [budget, setBudget] = useState(initialBudget.budget);
+  console.log("initial", initialBudget)
+
+  console.log(budget)
+
 
   const currentDate = new Date();
   const daysInCurrentMonth = getDaysInMonth(currentDate);
@@ -77,6 +81,10 @@ export default function BudgetEditor({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [calculateInput, repeatInput, selectedPeriod]);
+
+  useEffect(() => {
+    setBudget(initialBudget.budget)
+  }, [initialBudget])
 
   return (
     <div className="bg-white rounded-lg shadow-sm px-3 py-6 flex flex-col gap-4 flex-grow">

@@ -25,7 +25,7 @@ export default function TabsContainer() {
         <TabsContent key={tab.value} value={tab.value}>
           {tab.value === 'date' && <DateContainer />}
           {tab.value === 'calendar' && <CalendarContainer />}
-          {tab.value === 'budget' && <BudgetContainer />}
+          {tab.value === 'budget' && <BudgetContainer page="TRANSACTIONS"/>}
         </TabsContent>
       ))}
     </Tabs>

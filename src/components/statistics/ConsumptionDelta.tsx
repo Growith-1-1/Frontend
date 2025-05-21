@@ -13,12 +13,12 @@ export const ConsumptionDelta = ({
   let bgColorClass = 'bg-gray-100';
   let label = '변동 없음';
 
-  if (delta > 0) {
+  if (delta < 0) {
     icon = <ArrowUp className="w-4 h-4" />;
     colorClass = 'text-warning';
     bgColorClass = 'bg-warning/10';
     label = '더 사용';
-  } else if (delta < 0) {
+  } else if (delta > 0) {
     icon = <ArrowDown className="w-4 h-4" />;
     colorClass = 'text-primary';
     bgColorClass = 'bg-primary/10';

@@ -1,9 +1,9 @@
 'use client';
 
+import { getBudget } from '@/api/budgetApi';
+import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import BudgetEditor from './BudgetEditor';
-import { useQuery } from '@tanstack/react-query';
-import { getBudget } from '@/api/budgetApi';
 
 const CURRENT_MONTH = new Date().getMonth() + 1;
 
@@ -48,7 +48,7 @@ export default function BudgetContainer({
             <div className="title3 flex flex-col gap-2">
               <span>목표 | {budgetData.budget.toLocaleString()}원</span>
               <span>사용 | {budgetData.total.toLocaleString()}원</span>
-              <span>
+                <span className={`${(budgetData.budget - budgetData.total) < 0 ? "text-warning" : "text-primary"}`}>
                 남은 예산 |{' '}
                 {(budgetData.budget - budgetData.total).toLocaleString()}원
               </span>
@@ -60,13 +60,11 @@ export default function BudgetContainer({
           </span>
         )}
       </div>
-      {page === 'MAIN' ? (
-        <></>
-      ) : (
+      {page === 'TRANSACTIONS' && (
         <BudgetEditor
           mode={hasBudget ? 'edit' : 'create'}
-          // initialBudget={hasBudget ? budgetData : {}}
-          initialBudget={{}}
+          initialBudget={hasBudget ? budgetData : {}}
+          // initialBudget={{}}
         />
       )}
     </div>
