@@ -34,3 +34,15 @@ export const getAuthLogout = async () => {
     throw error;
   }
 };
+
+export const postUsersTest = async () => {
+  try {
+    return await baseFetch<EmptyResponse>(`/users/test`, {
+      method: "POST"
+    })
+  } catch (err) {
+    console.error("테스트 계정 로그인 에러: ", err)
+    throw err;
+
+  }
+}
