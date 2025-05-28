@@ -50,55 +50,53 @@ export default function CalendarContainer() {
           months: 'w-full',
         }}
         components={{
-          CaptionLabel({ displayMonth }) {
+          MonthCaption({ calendarMonth }) {
             return (
               <div className="title1 mb-2">
-                {format(displayMonth, 'yyyy. MM')}
+                {format(calendarMonth.date, 'yyyy. MM')}
               </div>
             );
           },
-          Day({ displayMonth, date }) {
-            const koDate = date.getDate();
+          Day({ day }) {
+            const date = day.date.getDate();
             return (
-              // <td
-              //   className="body2 w-full text-center"
-              //   role="gridcell"
-              //   data-day={format(date, 'yyyy-MM-dd')}
-              // >
-              <>
-                {date.getMonth() !== displayMonth.getMonth() ? (
+              <td
+                className="body2 w-full text-center"
+                role="gridcell"
+                data-day={format(day.date, 'yyyy-MM-dd')}
+              >
+                {day.outside ? (
                   <span className="text-gray-500">-</span>
                 ) : (
                   <button
                     className="grid items-center text-center w-full grid-rows-[1.5fr_1fr_1fr]"
                     type="button"
                     tabIndex={-1}
-                    aria-label={format(date, 'yyyy년 M월 d일 EEEE', {
+                    aria-label={format(day.date, 'yyyy년 M월 d일 EEEE', {
                       locale: ko,
                     })}
                   >
-                    <span>{koDate}</span>
-                    {transactionsMonthData[koDate - 1]?.spendTotal > 0 && (
+                    <span>{date}</span>
+                    {transactionsMonthData[date - 1]?.spendTotal > 0 && (
                       <span className="leading-none text-[10px] font-semibold text-warning">
                         -
                         {formatSimpleCurrency(
-                          transactionsMonthData[koDate - 1].spendTotal
+                          transactionsMonthData[date - 1].spendTotal
                         )}
                       </span>
                     )}
 
-                    {transactionsMonthData[koDate - 1]?.incomeTotal > 0 && (
+                    {transactionsMonthData[date - 1]?.incomeTotal > 0 && (
                       <span className="leading-none text-[10px] font-semibold text-primary">
                         +
                         {formatSimpleCurrency(
-                          transactionsMonthData[koDate - 1].incomeTotal
+                          transactionsMonthData[date - 1].incomeTotal
                         )}
                       </span>
                     )}
                   </button>
                 )}
-              </>
-              // </td>
+              </td>
             );
           },
         }}

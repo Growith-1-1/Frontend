@@ -16,7 +16,6 @@ const Home: NextPage = () => {
     const isProduction =
       process.env.NEXT_PUBLIC_NODE_ENV === 'production' ||
       process.env.NODE_ENV === 'production';
-    console.log('isProduction', isProduction);
 
     if (isProduction && typeof window !== 'undefined') {
       const isLocalhost = window.location.href.includes('localhost');
